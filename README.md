@@ -1,6 +1,6 @@
 ### Project Penney
 
-Data for each simulation are stored as **whatever this is** in the `data` folder with names like **example file name 1**, **example file name 2**. Heatmaps are stored in the `figures` folder with names like p2_card_probs.png and p2_trick_probs.png. 
+Data for each simulation are stored as **whatever this is** in the `data` folder with names like **example file name 1**, **example file name 2**. Heatmaps are stored in the `figures` folder with names num_card_probs.png and num_trick_probs.png. 
 
 Files included:
 
