@@ -13,6 +13,6 @@ Files included:
 
 ### Data Management/Processing Team
 
-* Dev Saxena: I worked on converting our stored win data and round data into a probability matrix stored as a pandas dataframe for the data visualization team to use. 
+* Dev Saxena: I worked on converting our stored win data and round data into a probability matrix returned as a pandas dataframe for the data visualization team to use. 
 
 ### Data Visualization Team
