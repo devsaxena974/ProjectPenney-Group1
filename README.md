@@ -16,3 +16,4 @@ Files included:
 * Dev Saxena: I worked on converting our stored win data and round data into a probability matrix returned as a pandas dataframe for the data visualization team to use. 
 
 ### Data Visualization Team
+* Annie Wicker: I worked on the function to generate the heatmaps and determine a color palette that would best convey the results. We used a red-white-green gradient color palette to represent low-medium-high win probabilities. We also worked with the Data Management and Processing team to adjust the heatmap function based on their determinations of the best way to store the simulation data. 
