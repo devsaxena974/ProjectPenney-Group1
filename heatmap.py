@@ -33,7 +33,7 @@ def matrix_creator(win_counts_file):
         # save the data in the matrix
         matrix.loc[p1, p2] = float(prob)
 
-        print(win_counts['win_data'][game])
+        #print(win_counts['win_data'][game])
 
     return matrix
 
