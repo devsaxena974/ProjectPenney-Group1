@@ -1,6 +1,6 @@
 ## Project Penney
 
-Data for each simulation are stored as text files in the `data` folder with names like **example file name 1**, **example file name 2**. Heatmaps are stored in the `figures` folder with names `num_cards_probs.png` and `num_tricks_probs.png`. For reproducibility we used a random seed of 440. 
+Data for each simulation are stored as text files in the `data` folder with names like **example file name 1**, **example file name 2**. Heatmaps will be stored in the `figures` folder with names `num_cards_probs.png` and `num_tricks_probs.png`. For reproducibility we used a random seed of 440. 
 
 Files included:
 
@@ -9,3 +9,8 @@ Files included:
 * heatmap.py: A Python file with code to run a function which converts the results of the simulation (stored as json files) into probability matrices and generates two heatmaps of said probabilities for both versions of the game.
 
 ## Write Ups
+### Simulation Team
+
+### Data Management/Processing Team
+
+### Data Visualization Team
