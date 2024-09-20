@@ -1,6 +1,6 @@
 ## Project Penney
 
-Data for each simulation are stored as text files in the `data` folder with names like **example file name 1**, **example file name 2**. Heatmaps will be stored in a folder named `figures` with names `num_cards_probs.png` and `num_tricks_probs.png`. For reproducibility we used a random seed of 440. 
+Data for each simulation are stored as text files in the `data` folder with names like **example file name 1**, **example file name 2**. Heatmaps will be stored in a folder named `figures` with names `num_cards_probs.png` and `num_tricks_probs.png`. For reproducibility we used a random seed of 440. By default, there is no random seed set. To specify one, set the `random_seed` parameter when calling the simulation function. 
 
 Files included:
 
