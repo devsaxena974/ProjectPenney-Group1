@@ -9,8 +9,8 @@ Files included:
 * heatmap.py: A Python file with code to run a function which converts the results of the simulation (stored as json files) into probability matrices and generates two heatmaps of said probabilities for both versions of the game.
 
 ## Write Ups
-# Simulation Team
+### Simulation Team
 
-# Data Management/Processing Team
+### Data Management/Processing Team
 
-# Data Visualization Team
+### Data Visualization Team
