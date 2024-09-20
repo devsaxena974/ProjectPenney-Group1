@@ -7,7 +7,8 @@ import os
 import re
 import json
 
-win_counts_file = 'game_data.json'
+num_cards_file = 'game_data_total_cards.json'
+num_tricks_file = 'game_data.json'
 
 def matrix_creator(win_counts_file):
     combinations = ['BBB', 'BBR', 'BRB', 'BRR', 'RBB', 'RBR', 'RRB', 'RRR']
@@ -33,21 +34,22 @@ def matrix_creator(win_counts_file):
         # save the data in the matrix
         matrix.loc[p1, p2] = float(prob)
 
-        print(win_counts['win_data'][game])
+        #print(win_counts['win_data'][game])
 
     return matrix
 
-result = matrix_creator(win_counts_file)
+num_cards_result = matrix_creator(num_cards_file)
+num_tricks_result = matrix_creator(num_tricks_file)
 
 sequences = ['BBB', 'BBR', 'BRB', 'BRR', 'RBB', 'RBR', 'RRB', 'RRR']
-def create_heatmaps(card_wins = result):
+def create_heatmaps(num_cards = num_cards_result, num_tricks = num_tricks_result):
 
     if not os.path.exists('figures'):
         os.makedirs('figures')
        
     #Heatmap for number of cards
     plt.figure(figsize=(10,8))
-    sns.heatmap(card_wins,
+    sns.heatmap(num_cards,
                 annot=True,
                 annot_kws={'color': 'black'},
                 cmap=LinearSegmentedColormap.from_list('rg',["r", "w", "g"], N=256),
@@ -59,15 +61,15 @@ def create_heatmaps(card_wins = result):
     plt.savefig('figures/num_card_probs.png', bbox_inches = 'tight')
 
     #Heatmap for number of tricks
-    #plt.figure(figsize=(10,8))
-    #sns.heatmap(trick_wins_df,
-     #           annot=True,
-      #          cmap=LinearSegmentedColormap.from_list('rg',["r", "w", "g"], N=256),
-     #           linewidths=.5,
-     #           cbar_kws={'label': 'Win Probability'})
-   # plt.title('Win Probabilities for Trick Scoring')
-   # plt.xlabel('Player 2 Choice')
-   # plt.ylabel('Player 1 Choice')
-   # plt.savefig('figures/num_trick_probs.png', bbox_inches = 'tight')
+    plt.figure(figsize=(10,8))
+    sns.heatmap(num_tricks,
+                annot=True,
+                cmap=LinearSegmentedColormap.from_list('rg',["r", "w", "g"], N=256),
+                linewidths=.5,
+                cbar_kws={'label': 'Win Probability'})
+    plt.title('Win Probabilities for Trick Scoring')
+    plt.xlabel('Player 2 Choice')
+    plt.ylabel('Player 1 Choice')
+    plt.savefig('figures/num_trick_probs.png', bbox_inches = 'tight')
 
 create_heatmaps()
