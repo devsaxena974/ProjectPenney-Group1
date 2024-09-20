@@ -1,7 +1,6 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
-from  matplotlib.colors import LinearSegmentedColormap
-import numpy as np
+from  matplotlib.colors import LinearSegmentedColormaps
 import pandas as pd
 import os
 import json
