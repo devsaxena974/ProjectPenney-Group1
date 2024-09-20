@@ -1,5 +1,7 @@
 ## Project Penney
 
+This repository contains files which can be used to simulate a variation of Penney's Game known as the Humble-Nishiyama Randomness Game, in which two players compete to see how many times a selected three-color sequence (Black Black Red, Red Black Red, etc.) appears in a shuffled deck of cards. When a player's chosen sequence appears, they get all of the drawn cards up to that point. The winner is determined in one of two ways: highest number of cards held or highest number of times a player's sequence appeared, known as a "trick".
+
 Data for each simulation are stored as text files in the `data` folder with names like `deck_file` and `deck_history`. Heatmaps will be stored in a folder named `figures` with names `num_cards_probs.png` and `num_tricks_probs.png`. For reproducibility we used a random seed of 440. By default, there is no random seed set. To specify one, set the `random_seed` parameter when calling the simulation function. 
 
 Files included:
