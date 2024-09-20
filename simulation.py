@@ -1,11 +1,16 @@
-import os                                                  
-import numpy as np                                         
-import json                                                
-import random                                              
+import os                                                  # Import os module for operating system functionalities
+import numpy as np                                         # Import numpy for numerical computations
+import json                                                # Import json to handle JSON data
+import random                                              # Import random for randomizing elements
 
 def game_simulation_with_probabilities(rounds=1000, random_seed=None):
                                                           # Define the main function with default parameters
     
+    # Ensure the 'data' directory exists
+    data_directory = 'data'                                # Define the data directory name
+    if not os.path.exists(data_directory):                 # Check if the directory exists
+        os.makedirs(data_directory)                        # Create the directory if it doesn't exist
+
     def create_hands():                                    # Define a function to create all possible combos
         sequences = []                                     # Initialize an empty list to store combos
         for i in range(8):                                 # Loop over numbers from 0 to 7
@@ -140,13 +145,13 @@ def game_simulation_with_probabilities(rounds=1000, random_seed=None):
     data = {}
     for total_cards in [False, True]:                      # Loop over both total_cards values
         if total_cards:                                    # Check if total_cards is True
-            data_file = 'game_data_total_cards.json'       # Use data file specific to total_cards=True
-            deck_file = 'deck_history_total_cards.json'    # Use deck file specific to total_cards=True
-            win_counts_file = 'win_counts_total_cards.json'# Use win counts file specific to total_cards=True
+            data_file = os.path.join(data_directory, 'game_data_total_cards.json')       # Use data file specific to total_cards=True
+            deck_file = os.path.join(data_directory, 'deck_history_total_cards.json')    # Use deck file specific to total_cards=True
+            win_counts_file = os.path.join(data_directory, 'win_counts_total_cards.json')# Use win counts file specific to total_cards=True
         else:
-            data_file = 'game_data.json'                   # Use data file specific to total_cards=False
-            deck_file = 'deck_history.json'                # Use deck file specific to total_cards=False
-            win_counts_file = 'win_counts.json'            # Use win counts file specific to total_cards=False
+            data_file = os.path.join(data_directory, 'game_data.json')                   # Use data file specific to total_cards=False
+            deck_file = os.path.join(data_directory, 'deck_history.json')                # Use deck file specific to total_cards=False
+            win_counts_file = os.path.join(data_directory, 'win_counts.json')            # Use win counts file specific to total_cards=False
 
         # Load existing data for this total_cards value
         overall_win_matrix, total_rounds_played = load_data(data_file)
@@ -167,11 +172,11 @@ def game_simulation_with_probabilities(rounds=1000, random_seed=None):
 
     # Run the simulations
     for _ in range(rounds):                                # Loop over the specified number of rounds
-        deck = [1] * 26 + [0] * 26  
-        # if random seed is not none, set the random seed
-        if (random_seed != None):
-            random.seed(random_seed)
-                                                           # Create a deck with 26 reds and 26 blacks
+        deck = [1] * 26 + [0] * 26                         # Create a deck with 26 reds and 26 blacks
+
+        if random_seed is not None:                        # If random_seed is provided
+            random.seed(random_seed)                       # Set the random seed for reproducibility
+
         random.shuffle(deck)                               # Shuffle the deck randomly
 
         deck_string = deck_to_string(deck)                 # Convert deck to string once
