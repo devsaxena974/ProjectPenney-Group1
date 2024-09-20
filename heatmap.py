@@ -7,7 +7,7 @@ import os
 import re
 import json
 
-win_counts_file = 'data/game_data.json'
+win_counts_file = 'game_data.json'
 
 def matrix_creator(win_counts_file):
     combinations = ['BBB', 'BBR', 'BRB', 'BRR', 'RBB', 'RBR', 'RRB', 'RRR']
@@ -69,3 +69,4 @@ def create_heatmaps(card_wins = result):
    # plt.ylabel('Player 1 Choice')
    # plt.savefig('figures/num_trick_probs.png', bbox_inches = 'tight')
 
+create_heatmaps()
