@@ -4,7 +4,6 @@ from  matplotlib.colors import LinearSegmentedColormap
 import numpy as np
 import pandas as pd
 import os
-import re
 import json
 
 num_cards_file = 'game_data_total_cards.json'
