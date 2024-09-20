@@ -49,6 +49,7 @@ def create_heatmaps(card_wins = result):
     plt.figure(figsize=(10,8))
     sns.heatmap(card_wins,
                 annot=True,
+                annot_kws={'color': 'black'},
                 cmap=LinearSegmentedColormap.from_list('rg',["r", "w", "g"], N=256),
                 linewidths=.5,
                 cbar_kws={'label': 'Win Probability'})
