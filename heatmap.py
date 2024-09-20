@@ -44,7 +44,7 @@ def create_heatmaps(card_wins = result):
 
     if not os.path.exists('figures'):
         os.makedirs('figures')
-        
+       
     #Heatmap for number of cards
     plt.figure(figsize=(10,8))
     sns.heatmap(card_wins,
