@@ -3,7 +3,7 @@ import numpy as np
 import json                                                
 import random                                              
 
-def game_simulation_with_probabilities(rounds=1000):
+def game_simulation_with_probabilities(rounds=1000, random_seed=None):
                                                           # Define the main function with default parameters
     
     def create_hands():                                    # Define a function to create all possible combos
@@ -167,7 +167,11 @@ def game_simulation_with_probabilities(rounds=1000):
 
     # Run the simulations
     for _ in range(rounds):                                # Loop over the specified number of rounds
-        deck = [1] * 26 + [0] * 26                         # Create a deck with 26 reds and 26 blacks
+        deck = [1] * 26 + [0] * 26  
+        # if random seed is not none, set the random seed
+        if (random_seed != None):
+            random.seed(random_seed)
+                                                           # Create a deck with 26 reds and 26 blacks
         random.shuffle(deck)                               # Shuffle the deck randomly
 
         deck_string = deck_to_string(deck)                 # Convert deck to string once
