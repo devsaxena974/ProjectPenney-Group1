@@ -22,7 +22,7 @@ Data for each simulation are stored as json files in the `data` folder. The data
 
 * Dev Saxena: I worked on converting our stored win data and round data into a probability matrix returned as a pandas dataframe for the data visualization team to use. I also helped create files to store game data from each new and previous round to make sure it can be calculated accordingly.
 
-* Aarya Kagalwala: I worked on creating the function that converted the simulation team's data outputs into files (data folder containing number of decks, wins, and probabilities) that the visualization team can utilize. I also created a function to output the probabilities as a pandas dataframe so that it can be effectively visualized. 
+* Aarya Kagalwala: I worked on creating the function that converted the simulation team's data outputs into files (data folder containing number of decks, wins, and probabilities) that the visualization team can utilize. Additionally, I helped create the function to update the files for each new round as we ran more rounds of the game. I also created a function to output the probabilities as a pandas dataframe so that it can be effectively visualized. 
 
 ### Data Visualization Team
 * Annie Wicker: I worked on the function to generate the heatmaps and determine a color palette that would best convey the results. We used a red-white-green gradient color palette to represent low-medium-high win probabilities. We also worked with the Data Management and Processing team to adjust the heatmap function based on their determinations of the best way to store the simulation data.
