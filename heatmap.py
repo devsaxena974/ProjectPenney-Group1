@@ -76,5 +76,6 @@ def create_heatmaps(num_cards = num_cards_result, num_tricks = num_tricks_result
     plt.ylabel('Player 1 Choice')
     plt.savefig('figures/num_trick_probs.png', bbox_inches = 'tight')
 
-create_heatmaps()
+if __name__ == "__main__":
+    create_heatmaps()
 
