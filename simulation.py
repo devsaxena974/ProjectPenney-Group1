@@ -149,9 +149,9 @@ def game_simulation_with_probabilities(rounds=1000, random_seed=None):
             deck_file = os.path.join(data_directory, 'deck_history_total_cards.json')    # Use deck file specific to total_cards=True
             win_counts_file = os.path.join(data_directory, 'win_counts_total_cards.json')# Use win counts file specific to total_cards=True
         else:
-            data_file = os.path.join(data_directory, 'game_data.json')                   # Use data file specific to total_cards=False
-            deck_file = os.path.join(data_directory, 'deck_history.json')                # Use deck file specific to total_cards=False
-            win_counts_file = os.path.join(data_directory, 'win_counts.json')            # Use win counts file specific to total_cards=False
+            data_file = os.path.join(data_directory, 'game_data_tricks.json')                   # Use data file specific to total_cards=False
+            deck_file = os.path.join(data_directory, 'deck_history_tricks.json')                # Use deck file specific to total_cards=False
+            win_counts_file = os.path.join(data_directory, 'win_counts_tricks.json')            # Use win counts file specific to total_cards=False
 
         # Load existing data for this total_cards value
         overall_win_matrix, total_rounds_played = load_data(data_file)
