@@ -18,6 +18,8 @@ def matrix_creator(win_counts_file):
         with open(win_counts_file, 'r') as f:          # Open the file in read mode
             win_counts = json.load(f)                  # Load the win counts
             #return win_counts['player1_wins'], win_counts['player2_wins'] # Return the win counts
+    else:
+        print('File not found!')
     
     num_rounds = win_counts['total_rounds_played']
 
