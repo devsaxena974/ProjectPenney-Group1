@@ -6,8 +6,8 @@ def main():
     print("Running simulation.py...")
     simulation.run_simulation()
   
-    print("Running heat_map.py...")
-    heat_map.generate_heat_map()
+    print("Running heatmap.py...")
+    heat_map.create_heatmaps()
   
 if __name__ == "__main__":
     main()
