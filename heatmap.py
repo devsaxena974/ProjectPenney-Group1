@@ -4,6 +4,7 @@ from matplotlib.colors import LinearSegmentedColormap
 import pandas as pd
 import os
 import json
+import matplotlib.ticker as mtick
 
 num_cards_file = 'data/game_data_total_cards.json'
 num_tricks_file = 'data/game_data_tricks.json'
@@ -49,10 +50,11 @@ def create_heatmaps(num_cards = num_cards_result, num_tricks = num_tricks_result
     plt.figure(figsize=(10,8))
     sns.heatmap(num_cards,
                 annot=True,
+                fmt = '.2%',
                 annot_kws={'color': 'black'},
                 cmap=LinearSegmentedColormap.from_list('rg',["r", "w", "g"], N=256),
                 linewidths=.5,
-                cbar_kws={'label': 'Win Probability'})
+                cbar_kws={'label': 'Win Probability', 'format': mtick.PercentFormatter(xmax=1, decimals=0)})
     plt.title('Win Probabilities for Card Scoring')
     plt.xlabel('Player 2 Choice')
     plt.ylabel('Player 1 Choice')
@@ -62,9 +64,11 @@ def create_heatmaps(num_cards = num_cards_result, num_tricks = num_tricks_result
     plt.figure(figsize=(10,8))
     sns.heatmap(num_tricks,
                 annot=True,
+                fmt = '.2%',
+                annot_kws={'color': 'black'},
                 cmap=LinearSegmentedColormap.from_list('rg',["r", "w", "g"], N=256),
                 linewidths=.5,
-                cbar_kws={'label': 'Win Probability'})
+                cbar_kws={'label': 'Win Probability', 'format': mtick.PercentFormatter(xmax=1, decimals=0)})
     plt.title('Win Probabilities for Trick Scoring')
     plt.xlabel('Player 2 Choice')
     plt.ylabel('Player 1 Choice')
