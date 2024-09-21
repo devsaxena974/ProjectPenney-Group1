@@ -1,4 +1,4 @@
-import heat_map
+import heatmap
 import simulation
 
 def main():
