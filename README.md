@@ -14,7 +14,7 @@ Data for each simulation are stored as json files in the `data` folder. The data
 ## Write Ups
 ### Simulation Team
 
-* Patrick Church: I worked on developing the simulation code and the logic behind it. I worked on designing and writing the algorithms that make the game simulation run smoothly. I also helped create the files where we store the simulation data, making sure the data is saved correctly for calculations.
+* Patrick Church: I worked on developing the simulation code and the logic behind it. I designed and wrote the algorithms that make the game simulation run smoothly. Additionally, I helped create the files where we store the simulation data, ensuring that the data is correctly updated after each time the function is run. This makes sure that the calculations are accurate and include every instance of the function being run.
 
 ### Data Management/Processing Team
 
