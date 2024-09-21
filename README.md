@@ -8,7 +8,7 @@ Files included:
 
 * `heatmap.py`: A Python file with code to run a function which converts the results of the simulation (stored as json files) into probability matrices and generates two heatmaps of said probabilities for both versions of the game.
 
-Data for each simulation are stored as text files in the `data` folder with names like `deck_file` and `deck_history`. Heatmaps are stored in the `figures` folder with names `num_cards_probs.png` and `num_tricks_probs.png`. By default, there is no random seed set. To specify one, set the `random_seed` parameter when calling the simulation function. 
+Data for each simulation are stored as json files in the `data` folder. The data folder shows game data, deck history, and player win counts for both the tricks and total cards game mode. The game data files include the total player 1 wins for each card hand and the total games played, this data is used to calculate the probabilities. Heatmaps are stored in the `figures` folder with names `num_cards_probs.png` and `num_tricks_probs.png`. By default, there is no random seed set. To specify one, set the `random_seed` parameter when calling the simulation function. 
 
 
 ## Write Ups
