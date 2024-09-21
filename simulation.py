@@ -183,7 +183,6 @@ def run_simulation(rounds=1000, random_seed=None):
         save_deck_data(sim_data['deck_file'], sim_data['deck_history'])
         save_wins_data(sim_data['wins_file'], sim_data['player1_wins'], sim_data['player2_wins'])
 
-#run_simulation(rounds=10000)
+run_simulation(rounds=10000)
 
-if __name__ == "__main__":
-    run_simulation()
+
