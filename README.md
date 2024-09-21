@@ -4,7 +4,7 @@ This repository contains files which can be used to simulate a variation of Penn
 
 Files included:
 
-* `simulation.py`: A Python file with code to run a function which simulates two version of Penney's Game. **Version 1** determines the winner by whichever player has the most cards in their pile. **Version 2** assigns points to tricks, and whichever player wins the most tricks wins the game. This function can run N additional game iterations and augment the results to the existing ones.
+* `simulation.py`: A Python file with code to run a function which simulates two version of Penney's Game for a given number of iterations, with an option to set a random seed for reproducibility. **Version 1** determines the winner by whichever player has the most cards in their pile. **Version 2** assigns points to tricks, and whichever player wins the most tricks wins the game. This function can run N additional game iterations and augment the results to the existing ones.
 
 * `heatmap.py`: A Python file with code to run a function which converts the results of the simulation (stored as json files) into probability matrices and generates two heatmaps of said probabilities for both versions of the game.
 
@@ -27,4 +27,4 @@ Data for each simulation are stored as json files in the `data` folder. The data
 ### Data Visualization Team
 * Annie Wicker: I worked on the function to generate the heatmaps and determine a color palette that would best convey the results. We used a red-white-green gradient color palette to represent low-medium-high win probabilities. We also worked with the Data Management and Processing team to adjust the heatmap function based on their determinations of the best way to store the simulation data.
 
-* Colin Purtell: I worked on the aesthetics of the heatmap, ensuring that labels and legends were readable and professional. I also was responsible for creating this README file, as well as working with the files provided by the simulation team and ensuring they would be read and converted properly to be used in our visualization function. Outside of our assigned tasks, we worked with the other two teams to brainstorm efficient data storage and output methods, debug code, and ensure that our repository fulfilled the project instructions.
+* Colin Purtell: I worked on the aesthetics of the heatmap, ensuring that labels and legends were readable and professional. I also was responsible for creating this README file, as well as working with the files provided by the simulation team and ensuring they would be read and converted properly to be used in our visualization function. Outside of my assigned tasks, I worked with the other two teams to brainstorm efficient data storage and output methods, debug code, add the interactive element to the simulation file, and ensure that our repository fulfilled the project instructions.
