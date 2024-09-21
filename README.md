@@ -14,6 +14,8 @@ Data for each simulation are stored as text files in the `data` folder with name
 ## Write Ups
 ### Simulation Team
 
+* Patrick Church: I worked on developing the simulation code and the logic behind it. I worked on designing and writing the algorithms that make the game simulation run smoothly. I also helped create the files where we store the simulation data, making sure the data is saved correctly for calculations.
+
 ### Data Management/Processing Team
 
 * Dev Saxena: I worked on converting our stored win data and round data into a probability matrix returned as a pandas dataframe for the data visualization team to use.
