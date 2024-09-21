@@ -3,90 +3,84 @@ import numpy as np
 import json
 import random
 
-def game_simulation_with_probabilities(rounds=1000, random_seed=None):
+def run_simulation(rounds=1000, random_seed=None):
     
-    data_directory = 'data'
-    if not os.path.exists(data_directory):
-        os.makedirs(data_directory)
-
+    data_folder = 'data'
+    if not os.path.exists(data_folder):
+        os.makedirs(data_folder)
     
-    def create_hands():
-        sequences = []
+    def generate_hands():
+        hands = []
         for i in range(8):
-            seq = [(i >> j) & 1 for j in range(2, -1, -1)]
-            sequences.append(seq)
-        return sequences
+            combo = [(i >> j) & 1 for j in range(2, -1, -1)]
+            hands.append(combo)
+        return hands
 
-    def binary_to_string(seq):
-        return ''.join(['R' if bit == 1 else 'B' for bit in seq])
-
-    def deck_to_string(deck):
-        return ''.join(['R' if card == 1 else 'B' for card in deck])
-
+    def binary_to_color_string(bits):
+        return ''.join(['R' if bit == 1 else 'B' for bit in bits])
     
-    def game_simulation(sequences, deck, total_cards):
+    def simulate_game(hands, shuffled_deck, count_total_cards):
         win_matrix = np.zeros((8, 8))
         player1_wins = 0
         player2_wins = 0
 
-        for i, player1_seq in enumerate(sequences):
-            for j, player2_seq in enumerate(sequences):
-                points_player_1, points_player_2 = 0, 0
-                cards_player_1, cards_player_2 = 0, 0
-                card_pile = []
+        for i, player1_hand in enumerate(hands):
+            for j, player2_hand in enumerate(hands):
+                player1_points, player2_points = 0, 0
+                player1_cards, player2_cards = 0, 0
+                current_pile = []
 
                 k = 0
-                while k <= len(deck) - 3:
-                    current_sequence = deck[k:k+3]
-                    card_pile += deck[k:k+3]
+                while k <= len(shuffled_deck) - 3:
+                    sequence = shuffled_deck[k:k+3]
+                    current_pile += shuffled_deck[k:k+3]
 
-                    if current_sequence == player1_seq:
-                        if total_cards:
-                            cards_player_1 += len(card_pile)
-                            card_pile = []
+                    if sequence == player1_hand:
+                        if count_total_cards:
+                            player1_cards += len(current_pile)
+                            current_pile = []
                         else:
-                            points_player_1 += 1
+                            player1_points += 1
                         k += 3
-                    elif current_sequence == player2_seq:
-                        if total_cards:
-                            cards_player_2 += len(card_pile)
-                            card_pile = []
+                    elif sequence == player2_hand:
+                        if count_total_cards:
+                            player2_cards += len(current_pile)
+                            current_pile = []
                         else:
-                            points_player_2 += 1
+                            player2_points += 1
                         k += 3
                     else:
                         k += 1
 
-                if total_cards:
-                    if cards_player_1 > cards_player_2:
+                if count_total_cards:
+                    if player1_cards > player2_cards:
                         win_matrix[i, j] += 1
                         player1_wins += 1
-                    elif cards_player_2 > cards_player_1:
+                    elif player2_cards > player1_cards:
                         player2_wins += 1
                 else:
-                    if points_player_1 > points_player_2:
+                    if player1_points > player2_points:
                         win_matrix[i, j] += 1
                         player1_wins += 1
-                    elif points_player_2 > points_player_1:
+                    elif player2_points > player1_points:
                         player2_wins += 1
 
         return win_matrix, player1_wins, player2_wins
 
-    
-    def load_data(file):
-        if os.path.exists(file):
-            with open(file, 'r') as f:
-                data = json.load(f)
+    def load_game_data(file_path):
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as f:
+                loaded_data = json.load(f)
                 win_matrix = np.zeros((8, 8))
-                win_data = data['win_data']
-                total_rounds_played = data['total_rounds_played']
+                win_data = loaded_data['win_data']
+                total_rounds_played = loaded_data['total_rounds_played']
 
-            sequences = create_hands()
-            for i in range(len(sequences)):
-                for j in range(len(sequences)):
-                    p1_seq = binary_to_string(sequences[i])
-                    p2_seq = binary_to_string(sequences[j])
-                    combo_key = f"{p1_seq} vs {p2_seq}"
+            hands = generate_hands()
+            for i in range(len(hands)):
+                for j in range(len(hands)):
+                    p1_hand = binary_to_color_string(hands[i])
+                    p2_hand = binary_to_color_string(hands[j])
+                    combo_key = f"{p1_hand} vs {p2_hand}"
                     if combo_key in win_data:
                         win_matrix[i, j] = win_data[combo_key]
 
@@ -94,108 +88,99 @@ def game_simulation_with_probabilities(rounds=1000, random_seed=None):
         else:
             return np.zeros((8, 8)), 0
 
-    
-    def save_data(file, win_matrix, sequences, total_rounds_played):
+    def save_game_data(file_path, win_matrix, hands, total_rounds_played):
         win_data = {}
 
-        for i in range(len(sequences)):
-            for j in range(len(sequences)):
-                p1_seq = binary_to_string(sequences[i])
-                p2_seq = binary_to_string(sequences[j])
+        for i in range(len(hands)):
+            for j in range(len(hands)):
+                p1_hand = binary_to_color_string(hands[i])
+                p2_hand = binary_to_color_string(hands[j])
                 wins = win_matrix[i, j]
-                win_data[f"{p1_seq} vs {p2_seq}"] = int(wins)
+                win_data[f"{p1_hand} vs {p2_hand}"] = int(wins)
 
-        data = {
-            'win_data': win_data,
-            'total_rounds_played': total_rounds_played
-        }
+        data_to_save = {'win_data': win_data,
+            'total_rounds_played': total_rounds_played}
 
-        with open(file, 'w') as f:
-            json.dump(data, f, indent=4)
+        with open(file_path, 'w') as f:
+            json.dump(data_to_save, f, indent=4)
 
-    def load_deck_history(deck_file):
-        if os.path.exists(deck_file):
-            with open(deck_file, 'r') as f:
-                deck_history = json.load(f)
-                return deck_history
+    def load_deck_data(deck_file_path):
+        if os.path.exists(deck_file_path):
+            with open(deck_file_path, 'r') as f:
+                loaded_deck_history = json.load(f)
+                return loaded_deck_history
         else:
             return []
 
-    def save_deck_history(deck_file, deck_history):
-        with open(deck_file, 'w') as f:
+    def save_deck_data(deck_file_path, deck_history):
+        with open(deck_file_path, 'w') as f:
             json.dump(deck_history, f)
 
-    def load_win_counts(win_counts_file):
-        if os.path.exists(win_counts_file):
-            with open(win_counts_file, 'r') as f:
-                win_counts = json.load(f)
-                return win_counts['player1_wins'], win_counts['player2_wins']
+    def load_wins_data(wins_file_path):
+        if os.path.exists(wins_file_path):
+            with open(wins_file_path, 'r') as f:
+                loaded_wins = json.load(f)
+                return loaded_wins['player1_wins'], loaded_wins['player2_wins']
         else:
             return 0, 0
 
-    def save_win_counts(win_counts_file, player1_wins, player2_wins):
-        with open(win_counts_file, 'w') as f:
-            win_counts = {
-                'player1_wins': player1_wins,
-                'player2_wins': player2_wins
-            }
+    def save_wins_data(wins_file_path, player1_wins, player2_wins):
+        with open(wins_file_path, 'w') as f:
+            win_counts = {'player1_wins': player1_wins, 'player2_wins': player2_wins}
             json.dump(win_counts, f)
 
-    sequences = create_hands()
+    hands = generate_hands()
 
-    
-    data = {}
-    for total_cards in [False, True]:
-        if total_cards:
-            data_file = os.path.join(data_directory, 'game_data_total_cards.json')
-            deck_file = os.path.join(data_directory, 'deck_history_total_cards.json')
-            win_counts_file = os.path.join(data_directory, 'win_counts_total_cards.json')
+    simulation_data = {}
+    for i in [False, True]:
+        if i:
+            data_file_path = os.path.join(data_folder, 'game_data_total_cards.json')
+            deck_file_path = os.path.join(data_folder, 'deck_history_total_cards.json')
+            wins_file_path = os.path.join(data_folder, 'win_counts_total_cards.json')
         else:
-            data_file = os.path.join(data_directory, 'game_data_tricks.json')
-            deck_file = os.path.join(data_directory, 'deck_history_tricks.json')
-            win_counts_file = os.path.join(data_directory, 'win_counts_tricks.json')
+            data_file_path = os.path.join(data_folder, 'game_data_tricks.json')
+            deck_file_path = os.path.join(data_folder, 'deck_history_tricks.json')
+            wins_file_path = os.path.join(data_folder, 'win_counts_tricks.json')
 
-        overall_win_matrix, total_rounds_played = load_data(data_file)
-        deck_history = load_deck_history(deck_file)
-        player1_wins, player2_wins = load_win_counts(win_counts_file)
+        overall_win_matrix, total_rounds_played = load_game_data(data_file_path)
+        deck_history = load_deck_data(deck_file_path)
+        player1_wins, player2_wins = load_wins_data(wins_file_path)
 
-        data[total_cards] = {
-            'data_file': data_file,
-            'deck_file': deck_file,
-            'win_counts_file': win_counts_file,
+        simulation_data[i] = {
+            'data_file': data_file_path,
+            'deck_file': deck_file_path,
+            'wins_file': wins_file_path,
             'overall_win_matrix': overall_win_matrix,
             'total_rounds_played': total_rounds_played,
             'deck_history': deck_history,
             'player1_wins': player1_wins,
-            'player2_wins': player2_wins
-        }
-
+            'player2_wins': player2_wins}
     
     for _ in range(rounds):
-        deck = [1] * 26 + [0] * 26
+        shuffled_deck = [1] * 26 + [0] * 26
 
         if random_seed is not None:
             random.seed(random_seed)
 
-        random.shuffle(deck)
-        deck_string = deck_to_string(deck)
+        random.shuffle(shuffled_deck)
+        deck_string = binary_to_color_string(shuffled_deck)
 
-        for total_cards in [False, True]:
-            d = data[total_cards]
+        for i in [False, True]:
+            sim_data = simulation_data[i]
 
-            win_matrix, p1_wins, p2_wins = game_simulation(sequences, deck, total_cards)
+            win_matrix, p1_wins, p2_wins = simulate_game(hands, shuffled_deck, i)
 
-            d['overall_win_matrix'] += win_matrix
-            d['player1_wins'] += p1_wins
-            d['player2_wins'] += p2_wins
-            d['total_rounds_played'] += 1
-            d['deck_history'].append(deck_string)
+            sim_data['overall_win_matrix'] += win_matrix
+            sim_data['player1_wins'] += p1_wins
+            sim_data['player2_wins'] += p2_wins
+            sim_data['total_rounds_played'] += 1
+            sim_data['deck_history'].append(deck_string)
 
-    for total_cards in [False, True]:
-        d = data[total_cards]
+    for i in [False, True]:
+        sim_data = simulation_data[i]
 
-        save_data(d['data_file'], d['overall_win_matrix'], sequences, d['total_rounds_played'])
-        save_deck_history(d['deck_file'], d['deck_history'])
-        save_win_counts(d['win_counts_file'], d['player1_wins'], d['player2_wins'])
+        save_game_data(sim_data['data_file'], sim_data['overall_win_matrix'], hands, sim_data['total_rounds_played'])
+        save_deck_data(sim_data['deck_file'], sim_data['deck_history'])
+        save_wins_data(sim_data['wins_file'], sim_data['player1_wins'], sim_data['player2_wins'])
 
-game_simulation_with_probabilities(rounds=2000)
+run_simulation(rounds=10000)
