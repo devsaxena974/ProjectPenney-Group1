@@ -1,12 +1,12 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
-from  matplotlib.colors import LinearSegmentedColormaps
+from matplotlib.colors import LinearSegmentedColormap
 import pandas as pd
 import os
 import json
 
-num_cards_file = 'game_data_total_cards.json'
-num_tricks_file = 'game_data_tricks.json'
+num_cards_file = 'data/game_data_total_cards.json'
+num_tricks_file = 'data/game_data_tricks.json'
 
 def matrix_creator(win_counts_file):
     combinations = ['BBB', 'BBR', 'BRB', 'BRR', 'RBB', 'RBR', 'RRB', 'RRR']
