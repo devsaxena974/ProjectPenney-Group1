@@ -6,7 +6,7 @@ import os
 import json
 
 num_cards_file = 'game_data_total_cards.json'
-num_tricks_file = 'game_data.json'
+num_tricks_file = 'game_data_tricks.json'
 
 def matrix_creator(win_counts_file):
     combinations = ['BBB', 'BBR', 'BRB', 'BRR', 'RBB', 'RBR', 'RRB', 'RRR']
