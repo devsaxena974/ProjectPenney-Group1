@@ -77,4 +77,4 @@ def create_heatmaps(num_cards = num_cards_result, num_tricks = num_tricks_result
 create_heatmaps()
 
 if __name__ == "__main__":
-    generate_heat_map()
+    create_heatmaps()
