@@ -183,7 +183,12 @@ def run_simulation(rounds=1000, random_seed=None):
         save_deck_data(sim_data['deck_file'], sim_data['deck_history'])
         save_wins_data(sim_data['wins_file'], sim_data['player1_wins'], sim_data['player2_wins'])
 
-#run_simulation(rounds=10000)
-
 if __name__ == "__main__":
-    run_simulation()
+    rounds = int(input('How many rounds would you like to simulate?\n'))
+    seed_bool = input('Would you like to set a random seed? (Enter "yes" or "no")\n')
+    if seed_bool == "yes":
+        seed = int(input('What random seed would you like to use?\n'))
+    else:
+        seed = None
+    print('Running simulation...')
+    run_simulation(rounds = rounds, random_seed = seed)
