@@ -16,6 +16,8 @@ Data for each simulation are stored as json files in the `data` folder. The data
 
 * Patrick Church: I worked on developing the simulation code and the logic behind it. I designed and wrote the algorithms that make the game simulation run smoothly. Additionally, I helped create the files where we store the simulation data, ensuring that the data is correctly updated after each time the function is run. This makes sure that the calculations are accurate and include every instance of the function being run.
 
+* Luke Schleck: I worked on developing the logic behind the simulation and helped with implenting the code for it. I helped to brainstorm how we could store the files and when they should be reaccesesed in order to create the probabilities for the heatmap. I helped with debugging the simulation in order to ensure that it was outputting the correct results and crosschecked it with the actual probabilities we should expect to be seeing.
+
 ### Data Management/Processing Team
 
 * Dev Saxena: I worked on converting our stored win data and round data into a probability matrix returned as a pandas dataframe for the data visualization team to use. I also helped create files to store game data from each new and previous round to make sure it can be calculated accordingly.
