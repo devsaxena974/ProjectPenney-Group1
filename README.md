@@ -18,7 +18,7 @@ Data for each simulation are stored as text files in the `data` folder with name
 
 ### Data Management/Processing Team
 
-* Dev Saxena: I worked on converting our stored win data and round data into a probability matrix returned as a pandas dataframe for the data visualization team to use.
+* Dev Saxena: I worked on converting our stored win data and round data into a probability matrix returned as a pandas dataframe for the data visualization team to use. I also helped create files to store game data from each new and previous round to make sure it can be calculated accordingly.
 
 * Aarya Kagalwala: I worked on creating the function that converted the simulation team's data outputs into files (data folder containing number of decks, wins, and probabilities) that the visualization team can utilize. I also created a function to output the probabilities as a pandas dataframe so that it can be effectively visualized. 
 
