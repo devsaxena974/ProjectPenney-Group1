@@ -3,6 +3,30 @@ import numpy as np
 import json
 import random
 
+
+def generate_data(num_iterations: int) -> List[List[int]]:
+    red = '1' * 26
+    black = '0' * 26
+    deck = black + red  
+
+    results = np.empty((num_iterations, 2), dtype=object)
+    
+    for i in tqdm(range(num_iterations)):
+        seed = i + 1  # Seed for shuffling
+        shuffled_deck = generate_sequence(deck, seed)  # Shuffle the deck using the seed
+        results[i] = [seed, ''.join(shuffled_deck)]  # Store seed and shuffled deck (as string)
+    
+    # Only keep the shuffled decks (without seeds)
+    decks_only = [list(binary_str) for _, binary_str in results]
+    
+    return decks_only
+
+def generate_sequence(seq: str, seed: int) -> List[str]:
+    np.random.seed(seed)  
+    seq_list = list(seq)  
+    np.random.shuffle(seq_list)  
+    return seq_list
+
 def run_simulation(rounds=1000, random_seed=None):
     
     data_folder = 'data'
