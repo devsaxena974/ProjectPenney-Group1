@@ -4,8 +4,13 @@ import random
 import numpy as np
 from tqdm import tqdm
 from typing import List
+import RunSimulation
+from RunSimulation import generate_data
+
 
 def run_simulation(rounds=1000, random_seed=None):
+
+    ''''
     def generate_data(num_iterations: int) -> List[List[str]]:
         """Generate multiple shuffled decks."""
         red = '1' * 26  # Represent red cards with '1'
@@ -27,6 +32,7 @@ def run_simulation(rounds=1000, random_seed=None):
         seq_list = list(seq)
         np.random.shuffle(seq_list)
         return seq_list
+    '''
 
     def score_deck(deck: List[str], seq1: str, seq2: str, score_by_points=False) -> tuple:
         """Simulate a single game between Player 1 and Player 2 based on their sequences."""
