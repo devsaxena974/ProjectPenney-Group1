@@ -44,6 +44,7 @@ def make_annots(wins : np.ndarray, ties: np.ndarray) -> np.ndarray:
         annots.append(row)
     return np.array(annots)
 
+
 def make_heatmap(arr: np.ndarray,
                  annots: np.ndarray,
                  ax: plt.Axes = None,
@@ -124,6 +125,7 @@ def make_heatmap_package(cards: np.ndarray,
     cb.outline.set_linewidth(.2)
     
     return fig, ax
+
 
 def get_heatmaps():
     '''
