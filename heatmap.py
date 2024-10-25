@@ -14,13 +14,17 @@ TICKLABEL_SIZE = 12
 TICK_SIZE = 10
 ANNOT_SIZE = 8
 
-def get_data(data: np.ndarray) -> np.ndarray:
+def get_data() -> np.ndarray:
     '''
-    Should eventually be responsible for reading in .json file, pulling each array from the dictionary, and formatting them
+    Responsible for reading in .json file, pulling each array from the dictionary, and formatting the numeric values for annotations
     '''
+    filepath = 'results/results.json'
+    if os.path.exists(filepath):
+        with open(filepath) as f:
+            data = json.load(f)
 
+    # Need to find a way to iterate through dictionary and format each numpy array
 
-    
     np.fill_diagonal(data, np.nan)
     return np.round(np.flip(data, axis = 1))
 
@@ -120,6 +124,12 @@ def make_heatmap_package(cards: np.ndarray,
     cb.outline.set_linewidth(.2)
     
     return fig, ax
+
+def get_heatmaps():
+    '''
+    This will be the master function that can be called to generate new heatmaps and save them to the 'figures' folder
+    '''
+
 
 
 # if not os.path.exists('figures'):
