@@ -22,5 +22,11 @@ Data for each simulation are stored as json files in the `data` folder. The data
 
 ### Details
 -------------
+We need to explain (from Ron's Github):
+- How does your random data generation work? Translate your code into words, but do so in such a way that the competent reader would be able to confirm that your code does indeed match the words used to describe it.
+
+- Once the data is generated, it is scored... how? Explain to a newcomer. Explain the algorithm in words, so that someone with a CS background might be able to do a cursory complexity analysis (e.g. "Oh that sounds like O(n^2) to me!"). Also, are any assumptions being made? Is there anything displayed in the results that was assumed rather than computed, due to some symmetry?
+
+- Explain how the results are presented. Even if the figures are clearly labeled, give a brief reiteration of what we are looking at. Is the diagonal grayed out? That deserves at least a sentence! Etc.
 
 
