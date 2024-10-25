@@ -1,81 +1,126 @@
 import seaborn as sns
+import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.colors import LinearSegmentedColormap
-import pandas as pd
 import os
 import json
-import matplotlib.ticker as mtick
 
-num_cards_file = 'data/game_data_total_cards.json'
-num_tricks_file = 'data/game_data_tricks.json'
+# Display settings for figures
+FIG_HIGH = 8
+FIG_WIDE = 8
 
-def matrix_creator(win_counts_file):
-    combinations = ['BBB', 'BBR', 'BRB', 'BRR', 'RBB', 'RBR', 'RRB', 'RRR']
-    matrix = pd.DataFrame(0.0, index=combinations, columns=combinations)
+TITLE_SIZE = 18
+LABEL_SIZE = 14
+TICKLABEL_SIZE = 12
+TICK_SIZE = 10
+ANNOT_SIZE = 8
 
-    # load the json data
-    if os.path.exists(win_counts_file):                # Check if the win counts file exists
-        with open(win_counts_file, 'r') as f:          # Open the file in read mode
-            win_counts = json.load(f)                  # Load the win counts
-            #return win_counts['player1_wins'], win_counts['player2_wins'] # Return the win counts
-    else:
-        print('File not found!')
+def get_data(data: np.ndarray) -> np.ndarray:
+    '''
+    Should eventually be responsible for reading in .json file, pulling each array from the dictionary, and formatting them
+    '''
+
+
     
-    num_rounds = win_counts['total_rounds_played']
+    np.fill_diagonal(data, np.nan)
+    return np.round(np.flip(data, axis = 1))
 
-    games = win_counts['win_data']
-    for game in games:
-        # strip the player combos to index the matrix at correct loc
-        p1 = game[0:3]
-        p2 = game[7:10]
-        # calculate the probabilites for the win
-        num_wins = win_counts['win_data'][game]
-        prob = num_wins / num_rounds
-        
-        # save the data in the matrix
-        matrix.loc[p1, p2] = float(prob)
 
-        #print(win_counts['win_data'][game])
+def make_annots(wins : np.ndarray, ties: np.ndarray) -> np.ndarray:
+    '''
+    Takes in two formatted arrays for wins and ties to return one array of strings of form "Win Percent (Tie Percent)" to use for cell annotations
+    '''
+    annots = []
+    for i in range(8):
+        row = []
+        for j in range(8):
+            if np.isnan(wins[i,j]):
+                row.append('')
+            else:
+                row.append(f'{str(int(wins[i,j]))} ({str(int(ties[i,j]))})')
+        annots.append(row)
+    return np.array(annots)
 
-    return matrix
+def make_heatmap(arr: np.ndarray,
+                 annots: np.ndarray,
+                 ax: plt.Axes = None,
+                 title: str = None,
+                ) -> tuple[plt.Figure, plt.Axes]:
+    '''
+    Generates a single heatmap using formatted data and annotations. 
+    '''
+    
+    seqs = ['BBB', 'BBR', 'BRB', 'BRR', 'RBB', 'RBR', 'RRB', 'RRR']
+    
+    settings = {
+        'vmin': 0,
+        'vmax': 100,
+        'linewidth': 0.01,
+        'cmap': 'Blues',
+        'cbar': False,
+        'annot': annots,
+        'fmt': ''
+    }
 
-num_cards_result = matrix_creator(num_cards_file)
-num_tricks_result = matrix_creator(num_tricks_file)
+    if ax is None:
+        # Create a new figure
+        fig, ax = plt.subplots(1, 1, figsize=(FIG_WIDE, FIG_HIGH))
+    else:
+        # Get the parent figure
+        fig = ax.get_figure()
 
-sequences = ['BBB', 'BBR', 'BRB', 'BRR', 'RBB', 'RBR', 'RRB', 'RRR']
-def create_heatmaps(num_cards = num_cards_result, num_tricks = num_tricks_result):
+    sns.heatmap(data = arr, 
+                ax = ax,
+                vmin = 0,
+                vmax = 100,
+                linewidth = 0.01,
+                cmap = 'Blues',
+                cbar = False,
+                annot = annots,
+                fmt = '')
 
-    if not os.path.exists('figures'):
-        os.makedirs('figures')
-       
-    #Heatmap for number of cards
-    plt.figure(figsize=(10,8))
-    sns.heatmap(num_cards,
-                annot=True,
-                fmt = '.2%',
-                annot_kws={'color': 'black'},
-                cmap=LinearSegmentedColormap.from_list('rg',["r", "w", "g"], N=256),
-                linewidths=.5,
-                cbar_kws={'label': 'Win Probability', 'format': mtick.PercentFormatter(xmax=1, decimals=0)})
-    plt.title('Win Probabilities for Card Scoring')
-    plt.xlabel('Player 2 Choice')
-    plt.ylabel('Player 1 Choice')
-    plt.savefig('figures/num_card_probs.png', bbox_inches = 'tight')
+    ax.set_xticklabels(seqs, fontsize=TICKLABEL_SIZE)
+    ax.set_yticklabels(seqs[::-1], fontsize=TICKLABEL_SIZE)
+    ax.set_title(title, fontsize=TITLE_SIZE)
+    ax.set_facecolor('lightgray')
+    
+    return fig, ax
 
-    #Heatmap for number of tricks
-    plt.figure(figsize=(10,8))
-    sns.heatmap(num_tricks,
-                annot=True,
-                fmt = '.2%',
-                annot_kws={'color': 'black'},
-                cmap=LinearSegmentedColormap.from_list('rg',["r", "w", "g"], N=256),
-                linewidths=.5,
-                cbar_kws={'label': 'Win Probability', 'format': mtick.PercentFormatter(xmax=1, decimals=0)})
-    plt.title('Win Probabilities for Trick Scoring')
-    plt.xlabel('Player 2 Choice')
-    plt.ylabel('Player 1 Choice')
-    plt.savefig('figures/num_trick_probs.png', bbox_inches = 'tight')
 
-if __name__ == "__main__":
-    create_heatmaps()
+def make_heatmap_package(cards: np.ndarray,
+                         cards_ties: np.ndarray,
+                         tricks: np.ndarray,
+                         tricks_ties: np.ndarray,
+                         n
+                        ) -> tuple[plt.Figure, plt.Axes]:
+    
+    '''
+    Creates two side-by-side heatmaps as a single figure to visualize both versions of the game.
+    '''
 
+    fig, ax = plt.subplots(1, 2, figsize = (FIG_WIDE*2, FIG_HIGH))
+
+    # Cards heatmap (left)
+    cards_annots = make_annots(cards, cards_ties)
+    make_heatmap(cards, cards_annots, ax[0], 
+                 title = f'My Chance of Winning by Cards\n(n = {n})')
+    
+    ax[0].set_xlabel('My Choice', fontsize = LABEL_SIZE)
+    ax[0].set_ylabel('Opponent Choice', fontsize = LABEL_SIZE)
+
+    # Tricks heatmap (right)
+    tricks_annots = make_annots(tricks, tricks_ties)
+    make_heatmap(tricks, tricks_annots, ax[1], 
+                 title = f'My Chance of Winning by Tricks\n(n = {n})')
+    ax[1].set_xlabel('My Choice', fontsize = LABEL_SIZE)
+    ax[1].set_ylabel('Opponent Choice', fontsize = LABEL_SIZE)
+
+    # Add custom colorbar
+    cbar_ax = fig.add_axes([.92, 0.11, 0.02, .77])
+    cb = fig.colorbar(ax[1].collections[0], cax=cbar_ax, format='%.0f%%')
+    cb.outline.set_linewidth(.2)
+    
+    return fig, ax
+
+
+# if not os.path.exists('figures'):
+#        os.makedirs('figures')
