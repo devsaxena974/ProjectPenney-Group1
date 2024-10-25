@@ -7,7 +7,7 @@ This repository contains files which can be used to simulate a variation of Penn
 
 ### Getting Started:
 --------------
-Need to use this section to explain to a new user how the code works.
+Need to use this section to explain "in excruciating detail" to a new user how the code works.
 
 ### Files/Folders Included:
 --------------
