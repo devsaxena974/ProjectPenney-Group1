@@ -23,12 +23,3 @@ def generate_sequence(seq: str, seed: int) -> List[str]:
         seq_list = list(seq)
         np.random.shuffle(seq_list)
         return seq_list
-
-'''
-if __name__ == "__main__":
-    res_with_seeds, decks_only = generate_data(1000000)
-    print(res_with_seeds)
-    print(decks_only)
-    print(res_with_seeds[-1])  
-    print(decks_only[-1])  
-'''
