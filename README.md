@@ -7,7 +7,7 @@ This repository contains files which can be used to simulate a variation of Penn
 
 ### Getting Started:
 --------------
-#### `Simulation.py`
+#### `simulation.py`
 The main function, `run_simulation`, sets the number of rounds and optional random seed for shuffling the deck. For each round a shuffled deck of cards is created and games are simulated for all possible combinations each player can have. The results are saved and loaded into JSON files.
 
 The `data` folder stores JSON files for game data, deck history, and win counts. `os.makedirs(data_folder)` creates the folder if it does not already exist.
@@ -19,7 +19,20 @@ The `simulate_game` function runs a single game between each possible combinatio
 The `load_game_data` and `save_game_data` functions load and save the win matrix and total rounds played into JSON files. The deck history is saved for analysis purposes. 
 
 
-#### `Processing.py`
+#### `processing.py`
+can someone update this once the processing file has code in it
+
+#### 'heatmap.py`
+This file generates heatmaps based on pre-calculated win data from the simulation. The function takes the processed data and creates two customizable heatmaps for each version of the game.
+
+The `get_data` function reads game results from a JSON file, formats them into a matrix, and prepares the data for visualization. 
+
+The `make_annots` function creates uniform standards for each box in the heatmap. It formats the matrix annotations as "Win Percent (Tie Percent)". 
+
+The `make_heatmaps` function takes in data, annotations, axis labels, and a title.
+
+`make_heatmap_package` combins two heatmaps into one figure for side-by-side comparison. Finally, the `get_heatmaps` function calls `make_heatmap_package` to generate visualizations and save the final figure to `folders`. 
+
 
 ### Files/Folders Included:
 --------------
