@@ -7,7 +7,19 @@ This repository contains files which can be used to simulate a variation of Penn
 
 ### Getting Started:
 --------------
-Need to use this section to explain "in excruciating detail" to a new user how the code works.
+#### `Simulation.py`
+The main function, `run_simulation`, sets the number of rounds and optional random seed for shuffling the deck. For each round a shuffled deck of cards is created and games are simulated for all possible combinations each player can have. The results are saved and loaded into JSON files.
+
+The `data` folder stores JSON files for game data, deck history, and win counts. `os.makedirs(data_folder)` creates the folder if it does not already exist.
+
+The `generate_hands` function generates all possible hands in binary. 1 represents red and 0 represents black. Each hand is generated and returned as a list of lists. The `binary_to_color_string` function converts a binary list like [1,0,1] to "RBR".
+
+The `simulate_game` function runs a single game between each possible combination of player hands against a shuffled deck. Its parameters are `hands`, `shuffled_deck`, and `count_total_cards`. For each pair of player card choices, this function goes through the deck and checks for matches against each hand. 
+
+The `load_game_data` and `save_game_data` functions load and save the win matrix and total rounds played into JSON files. The deck history is saved for analysis purposes. 
+
+
+#### `Processing.py`
 
 ### Files/Folders Included:
 --------------
