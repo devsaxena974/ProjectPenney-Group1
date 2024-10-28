@@ -147,6 +147,7 @@ def make_heatmap_package(cards: np.ndarray,
                 colorscale = 'Blues',
                 colorbar = dict(title = 'Win %', thickness = 20),
                 text = cards_annots,
+                texttemplate = '%{text}',
                 hoverinfo = 'text+z',
                 showscale= False
             ),
@@ -161,6 +162,7 @@ def make_heatmap_package(cards: np.ndarray,
                 colorscale = 'Blues',
                 colorbar = dict(title = 'Win %', thickness = 20),
                 text = tricks_annots,
+                texttemplate = '%{text}',
                 hoverinfo = 'text+z'
             ),
             row = 1, col = 2
@@ -171,8 +173,12 @@ def make_heatmap_package(cards: np.ndarray,
             margin = dict(l = 50, r = 50, t = 80, b = 50)
         )
 
-        fig.update_xaxes(tickvals = list(range(8)), ticktext = ['BBB', 'BBR', 'BRB', 'BRR', 'RBB', 'RBR', 'RRB', 'RRR'])
-        fig.update_yaxes(tickvals=list(range(8)), ticktext=['RRR', 'RRB', 'RBR', 'RBB', 'BRR', 'BRB', 'BBR', 'BBB'])
+        tick_labels = ['BBB', 'BBR', 'BRB', 'BRR', 'RBB', 'RBR', 'RRB', 'RRR']
+        fig.update_xaxes(title_text = 'My Choice', tickvals = list(range(8)), ticktext = tick_labels, showgrid = False, row = 1, col = 1)
+        fig.update_yaxes(title_text = 'Opponent Choice', tickvals=list(range(8)), ticktext = tick_labels[::-1], showgrid = False, row = 1, col = 1)
+
+        fig.update_xaxes(title_text = 'My Choice', tickvals = list(range(8)), ticktext = tick_labels, showgrid = False, row = 1, col = 2)
+        fig.update_yaxes(title_text = 'Opponent Choice', tickvals=list(range(8)), ticktext = tick_labels[::-1], showgrid = False, row = 1, col = 2)
 
         return fig, None
 
