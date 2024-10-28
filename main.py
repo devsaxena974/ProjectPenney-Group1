@@ -3,9 +3,9 @@ from src.deck_generation import generate_data
 from src.simulation import run_simulation
 
 def main():
-    num_iterations = 50000  # Number of decks to generate and rounds to simulate
-    decks_file = 'decks.json'
-    probabilities_file = 'probabilities.json'
+    num_iterations = 1000  # Number of decks to generate and rounds to simulate
+    decks_file = 'data/ones_and_zeros'
+    probabilities_file = 'results/probabilities.json'
     reset_probabilities = False  # Set to True to reset cumulative probabilities
 
     # Optionally reset probabilities

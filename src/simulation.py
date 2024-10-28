@@ -4,95 +4,134 @@ import json
 import numpy as np
 from tqdm import tqdm
 from typing import List
+from .deck_generation import generate_data  # Relative import within the package
 
-def run_simulation(rounds=1000, decks_file='decks.json', probabilities_file='probabilities.json'):
-    """Run the simulation using pre-generated decks from a data file."""
-    
-    def score_deck(deck: List[str], seq1: str, seq2: str, score_by_points=False) -> tuple:
-        """Simulate a single game between Player 1 and Player 2 based on their sequences."""
-        p1_score = 0
-        p2_score = 0
-        pile = 2  # Initial pile size
+def score_deck(deck: List[str], seq1: str, seq2: str, score_by_points=False) -> tuple:
+    """Simulate a single game between Player 1 and Player 2 based on their sequences."""
+    # [Function implementation as before]
 
-        i = 0
-        while i < len(deck) - 2:
-            current_sequence = ''.join(deck[i:i+3])  # Take a slice of 3 cards from the deck as a string
-            if current_sequence == seq1:
-                if score_by_points:
-                    p1_score += 1  # Award 1 point if scoring by points
-                    i += 3  # Move to the next 3 cards for both methods
-                else:
-                    p1_score += pile  # Add the number of cards in the pile to Player 1's score
-                    pile = 2  # Reset the pile after Player 1 collects the cards
-                    i += 3  # Skip the next 3 cards as the pile is wiped
-            elif current_sequence == seq2:
-                if score_by_points:
-                    p2_score += 1  # Award 1 point if scoring by points
-                    i += 3  # Move to the next 3 cards for both methods
-                else:
-                    p2_score += pile  # Add the number of cards in the pile to Player 2's score
-                    pile = 2  # Reset the pile after Player 2 collects the cards
-                    i += 3  # Skip the next 3 cards as the pile is wiped
+    p1_score = 0
+    p2_score = 0
+    pile = 2  # Initial pile size
+
+    i = 0
+    while i < len(deck) - 2:
+        current_sequence = ''.join(deck[i:i+3])  # Take a slice of 3 cards from the deck as a string
+        if current_sequence == seq1:
+            if score_by_points:
+                p1_score += 1  # Award 1 point if scoring by points
+                i += 3  # Move to the next 3 cards for both methods
             else:
-                pile += 1  # Add a card to the pile
-                i += 1  # Move to the next card
+                p1_score += pile  # Add the number of cards in the pile to Player 1's score
+                pile = 2  # Reset the pile after Player 1 collects the cards
+                i += 3  # Skip the next 3 cards as the pile is wiped
+        elif current_sequence == seq2:
+            if score_by_points:
+                p2_score += 1  # Award 1 point if scoring by points
+                i += 3  # Move to the next 3 cards for both methods
+            else:
+                p2_score += pile  # Add the number of cards in the pile to Player 2's score
+                pile = 2  # Reset the pile after Player 2 collects the cards
+                i += 3  # Skip the next 3 cards as the pile is wiped
+        else:
+            pile += 1  # Add a card to the pile
+            i += 1  # Move to the next card
 
-        return p1_score, p2_score
+    return p1_score, p2_score
 
-    def run_iteration(decks):
-        """Run the simulation using the provided decks."""
-        # Binary sequences (in 3-bit format)
-        sequences = ['000', '001', '010', '011', '100', '101', '110', '111']
+def run_iteration(decks):
+    """Run the simulation using the provided decks."""
+    # [Function implementation as before]
 
-        num_sequences = len(sequences)
+    # Binary sequences (in 3-bit format)
+    sequences = ['000', '001', '010', '011', '100', '101', '110', '111']
+    num_sequences = len(sequences)
 
-        # Initialize matrices to store counts
-        win_matrix_cards = np.zeros((num_sequences, num_sequences))
-        tie_matrix_cards = np.zeros((num_sequences, num_sequences))
-        win_matrix_points = np.zeros((num_sequences, num_sequences))
-        tie_matrix_points = np.zeros((num_sequences, num_sequences))
-        games_played = np.zeros((num_sequences, num_sequences))
+    # Initialize matrices to store counts
+    win_matrix_cards = np.zeros((num_sequences, num_sequences))
+    tie_matrix_cards = np.zeros((num_sequences, num_sequences))
+    win_matrix_points = np.zeros((num_sequences, num_sequences))
+    tie_matrix_points = np.zeros((num_sequences, num_sequences))
+    games_played = np.zeros((num_sequences, num_sequences))
 
-        # Simulate games for each deck and count wins and ties
-        for deck in tqdm(decks, desc="Simulating games"):
-            # Play each combination of Player 1 and Player 2 sequences
-            for i in range(num_sequences):
-                for j in range(num_sequences):
-                    if j != i:  # Only compare distinct sequences
-                        p1_seq = sequences[i]  # Player 1's sequence (binary)
-                        p2_seq = sequences[j]  # Player 2's sequence (binary)
+    # Simulate games for each deck and count wins and ties
+    for deck in tqdm(decks, desc="Simulating games"):
+        # Play each combination of Player 1 and Player 2 sequences
+        for i in range(num_sequences):
+            for j in range(num_sequences):
+                if j != i:  # Only compare distinct sequences
+                    p1_seq = sequences[i]  # Player 1's sequence (binary)
+                    p2_seq = sequences[j]  # Player 2's sequence (binary)
 
-                        # Score the deck by total cards
-                        p1_cards, p2_cards = score_deck(deck, p1_seq, p2_seq)
+                    # Score the deck by total cards
+                    p1_cards, p2_cards = score_deck(deck, p1_seq, p2_seq)
 
-                        # Score the deck by points
-                        p1_points, p2_points = score_deck(deck, p1_seq, p2_seq, score_by_points=True)
+                    # Score the deck by points
+                    p1_points, p2_points = score_deck(deck, p1_seq, p2_seq, score_by_points=True)
 
-                        # Update games played
-                        games_played[i, j] += 1
+                    # Update games played
+                    games_played[i, j] += 1
 
-                        # Determine the winner or tie based on cards collected
-                        if p1_cards > p2_cards:
-                            win_matrix_cards[i, j] += 1
-                        elif p1_cards == p2_cards:
-                            tie_matrix_cards[i, j] += 1
-                        # No need to count Player 2 wins separately
+                    # Determine the winner or tie based on cards collected
+                    if p1_cards > p2_cards:
+                        win_matrix_cards[i, j] += 1
+                    elif p1_cards == p2_cards:
+                        tie_matrix_cards[i, j] += 1
+                    # No need to count Player 2 wins separately
 
-                        # Determine the winner or tie based on points
-                        if p1_points > p2_points:
-                            win_matrix_points[i, j] += 1
-                        elif p1_points == p2_points:
-                            tie_matrix_points[i, j] += 1
-                        # No need to count Player 2 wins separately
+                    # Determine the winner or tie based on points
+                    if p1_points > p2_points:
+                        win_matrix_points[i, j] += 1
+                    elif p1_points == p2_points:
+                        tie_matrix_points[i, j] += 1
+                    # No need to count Player 2 wins separately
 
-        return win_matrix_cards, tie_matrix_cards, win_matrix_points, tie_matrix_points, games_played
+    return win_matrix_cards, tie_matrix_cards, win_matrix_points, tie_matrix_points, games_played
+
+def print_percentage_matrix(matrix, title):
+    """Function to print matrices as percentages with one decimal."""
+    print(title)
+    matrix_percent = np.flipud(matrix * 100)
+    # Format the matrix to have percentages with one decimal place
+    formatted_matrix = np.array2string(
+        matrix_percent,
+        formatter={'float_kind': lambda x: f'{x:0.1f}%'},
+        max_line_width=np.inf
+    )
+    print(formatted_matrix)
+    print()
+
+def run_simulation(rounds=1000, decks_file='data/ones_and_zeros', probabilities_file='results/probabilities.json'):
+    """Run the simulation using pre-generated decks from a data file."""
+
+    # Ensure the probabilities directory exists
+    os.makedirs(os.path.dirname(probabilities_file), exist_ok=True)
+
+    # Check if decks file exists; if not, generate decks
+    if not os.path.exists(decks_file):
+        print(f"Decks file '{decks_file}' not found. Generating {rounds} decks.")
+        generate_data(rounds, decks_file)
+    else:
+        # Check if the number of decks in the file is sufficient
+        with open(decks_file, 'r') as f:
+            all_decks = json.load(f)
+        if rounds > len(all_decks):
+            print(f"Insufficient decks in '{decks_file}'. Generating {rounds} decks.")
+            generate_data(rounds, decks_file)
+
+    # Load decks from the data file
+    with open(decks_file, 'r') as f:
+        all_decks = json.load(f)
+
+    # Ensure the number of rounds does not exceed the number of decks
+    if rounds > len(all_decks):
+        rounds = len(all_decks)
+
+    all_decks = all_decks[:rounds]
 
     # Initialize sequences (we need the length)
     sequences = ['000', '001', '010', '011', '100', '101', '110', '111']
     num_sequences = len(sequences)
-
-    # File to store probabilities
-    probabilities_file = 'probabilities.json'
 
     # Initialize cumulative counts and total games played per combination
     if os.path.exists(probabilities_file):
@@ -110,19 +149,6 @@ def run_simulation(rounds=1000, decks_file='decks.json', probabilities_file='pro
         cumulative_prob_tricks = np.zeros((num_sequences, num_sequences))
         cumulative_prob_ties_tricks = np.zeros((num_sequences, num_sequences))
         cumulative_games_played = 0
-
-    # Load decks from the data file
-    if not os.path.exists(decks_file):
-        raise FileNotFoundError(f"Decks file '{decks_file}' not found. Please generate decks first.")
-
-    with open(decks_file, 'r') as f:
-        all_decks = json.load(f)
-
-    # Check if the number of decks matches the rounds
-    if rounds > len(all_decks):
-        raise ValueError(f"Requested {rounds} rounds, but only {len(all_decks)} decks are available.")
-    else:
-        all_decks = all_decks[:rounds]
 
     # Run the iteration and get current counts
     win_matrix_cards, tie_matrix_cards, win_matrix_points, tie_matrix_points, games_played = run_iteration(all_decks)
@@ -170,19 +196,6 @@ def run_simulation(rounds=1000, decks_file='decks.json', probabilities_file='pro
 
     with open(probabilities_file, 'w') as f:
         json.dump(data_to_save, f)
-
-    # Function to print matrices as percentages with one decimal
-    def print_percentage_matrix(matrix, title):
-        print(title)
-        matrix_percent = np.flipud(matrix * 100)
-        # Format the matrix to have percentages with one decimal place
-        formatted_matrix = np.array2string(
-            matrix_percent,
-            formatter={'float_kind': lambda x: f'{x:0.1f}%'},
-            max_line_width=np.inf
-        )
-        print(formatted_matrix)
-        print()
 
     # Print cumulative probabilities with formatted percentages
     print_percentage_matrix(cumulative_prob_cards, "Probability of Player 1 Wins by Total Cards:")
