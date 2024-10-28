@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from tqdm import tqdm
 import json
@@ -22,6 +23,9 @@ def generate_data(num_iterations: int, output_file: str, random_seed=None) -> No
         seed = random_seed or i + 1  # Use the seed for shuffling, or use a default seed if not provided
         shuffled_deck = generate_sequence(deck, seed)  # Shuffle the deck using the seed
         results.append(shuffled_deck)  # Store the shuffled deck
+
+    # Ensure the output directory exists
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
     # Save the results to a data file
     with open(output_file, 'w') as f:
