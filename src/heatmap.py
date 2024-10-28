@@ -155,10 +155,10 @@ def make_heatmap_package(cards: np.ndarray,
 
         tick_labels = ['BBB', 'BBR', 'BRB', 'BRR', 'RBB', 'RBR', 'RRB', 'RRR']
         fig.update_xaxes(title_text = 'My Choice', tickvals = list(range(8)), ticktext = tick_labels, showgrid = False, row = 1, col = 1)
-        fig.update_yaxes(title_text = 'Opponent Choice', tickvals=list(range(8)), ticktext = tick_labels[::-1], showgrid = False, row = 1, col = 1)
+        fig.update_yaxes(title_text = 'Opponent Choice', tickvals=list(range(8)), ticktext = tick_labels[::-1], showgrid = False, row = 1, col = 1, autorange="reversed")
 
         fig.update_xaxes(title_text = 'My Choice', tickvals = list(range(8)), ticktext = tick_labels, showgrid = False, row = 1, col = 2)
-        fig.update_yaxes(title_text = 'Opponent Choice', tickvals=list(range(8)), ticktext = tick_labels[::-1], showgrid = False, row = 1, col = 2)
+        fig.update_yaxes(title_text = 'Opponent Choice', tickvals=list(range(8)), ticktext = tick_labels[::-1], showgrid = False, row = 1, col = 2, autorange="reversed")
 
         return fig, None
 
