@@ -1,7 +1,3 @@
-import os
-from src.deck_generation import generate_data
-from src.simulation import run_simulation
-
 def main():
     num_iterations = 1000  # Number of decks to generate and rounds to simulate
     decks_file = 'data/ones_and_zeros'
@@ -20,6 +16,10 @@ def main():
     # Run simulation using the generated decks
     run_simulation(rounds=num_iterations, decks_file=decks_file, probabilities_file=probabilities_file)
     print("Simulation completed and probabilities updated.")
+
+    # Generate heatmaps
+    get_heatmaps('png')
+    print("Heatmap generation completed.")
 
 if __name__ == "__main__":
     main()
