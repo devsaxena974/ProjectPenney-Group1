@@ -1,9 +1,8 @@
 import os
-from src.deck_generation import generate_data
-from src.simulation import run_simulation
 import json
 import numpy as np
 import matplotlib.pyplot as plt
+from 
 import seaborn as sns
 
 # Display settings for figures
@@ -24,6 +23,7 @@ def format_data(data: list) -> np.ndarray:
     np.fill_diagonal(data_new, np.nan)
     return np.round(np.flip(data_new, axis=1))
 
+
 def make_annots(wins: np.ndarray, ties: np.ndarray) -> np.ndarray:
     '''
     Creates an array of strings in the form "Win Percent (Tie Percent)" for cell annotations.
@@ -38,6 +38,7 @@ def make_annots(wins: np.ndarray, ties: np.ndarray) -> np.ndarray:
                 row.append(f'{int(wins[i, j])} ({int(ties[i, j])})')
         annots.append(row)
     return np.array(annots)
+
 
 def make_heatmap(arr: np.ndarray,
                  annots: np.ndarray,
@@ -75,6 +76,7 @@ def make_heatmap(arr: np.ndarray,
         
         return fig, ax
 
+
 def make_heatmap_package(cards: np.ndarray,
                          cards_ties: np.ndarray,
                          tricks: np.ndarray,
@@ -111,7 +113,7 @@ def make_heatmap_package(cards: np.ndarray,
         return fig, ax
 
     elif library == 'plotly':
-        
+        fig = make_subplots()
 
 
         #Cards heatmap
