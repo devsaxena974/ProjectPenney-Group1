@@ -173,13 +173,14 @@ def get_heatmaps(format: str):
     n = results['n']
 
     # Ensure the 'figures' directory exists
-    figures_dir = 'figures'
-    os.makedirs(figures_dir, exist_ok=True)
+    os.makedirs('figures', exist_ok=True)
     
     if format == 'png':
         fig, ax = make_heatmap_package(cards, cards_ties, tricks, tricks_ties, n, library='matplotlib')
         fig.savefig(os.path.join(figures_dir, 'heatmap.png'), format='png', bbox_inches='tight')
         plt.close(fig)  # Close the figure to free memory
-        print(f"Heatmap saved as '{figures_dir}/heatmap.png'.")
+        print(f"Heatmap saved to 'figures/heatmap.png'.")
+    elif format == 'html':
+
     else:
-        print("Format not supported, please enter 'png'.")
+        print("Format not supported, please enter either 'png' or 'html'")
