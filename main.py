@@ -1,6 +1,6 @@
 import os
-#from deck_generation import generate_data
-#from simulation import run_simulation
+from src.deck_generation import generate_data
+from src.simulation import run_simulation
 
 def main():
     num_iterations = 50000  # Number of decks to generate and rounds to simulate
