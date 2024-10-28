@@ -180,7 +180,11 @@ def get_heatmaps(format: str):
         fig.savefig(os.path.join(figures_dir, 'heatmap.png'), format='png', bbox_inches='tight')
         plt.close(fig)  # Close the figure to free memory
         print(f"Heatmap saved to 'figures/heatmap.png'.")
-    elif format == 'html':
 
+    elif format == 'html':
+        fig, _ = make_heatmap_package(cards, cards_ties, tricks, tricks_ties, n, library = 'plotly')
+        fig.write_html('figures/heatmap.html')
+        print(f"Heatmap saved to 'figures/heatmap.html'.")
+        
     else:
         print("Format not supported, please enter either 'png' or 'html'")
