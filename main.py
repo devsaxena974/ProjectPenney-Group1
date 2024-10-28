@@ -6,7 +6,7 @@ from src.heatmap import get_heatmaps
 def main():
     num_iterations = 1000  # Number of decks to generate and rounds to simulate
     decks_file = 'data/ones_and_zeros'
-    probabilities_file = 'results/probabilities.json'
+    probabilities_file = 'results/results.json'
     reset_probabilities = False  # Set to True to reset cumulative probabilities
 
     # Optionally reset probabilities

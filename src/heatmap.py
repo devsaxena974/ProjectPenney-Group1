@@ -199,7 +199,3 @@ def get_heatmaps(format: str):
 
     else:
         print("Format not supported, please enter either 'png' or 'html'")
-
-if __name__ == "__main__":
-    #get_heatmaps('png')
-    #get_heatmaps('html')
