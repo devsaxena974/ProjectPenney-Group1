@@ -2,7 +2,7 @@ import os
 import json
 import numpy as np
 import matplotlib.pyplot as plt
-from 
+from plotly.subplots import make_subplots
 import seaborn as sns
 
 # Display settings for figures
@@ -113,7 +113,10 @@ def make_heatmap_package(cards: np.ndarray,
         return fig, ax
 
     elif library == 'plotly':
-        fig = make_subplots()
+        fig = make_subplots(rows = 1, cols = 2 subplot_titles = [
+            f'My Chance of Winning by Cards (n = {n})',
+            f'My Chance of Winning by Tricks (n = {n})'
+        ])
 
 
         #Cards heatmap
@@ -161,9 +164,11 @@ def make_heatmap_package(cards: np.ndarray,
 
 
 def get_heatmaps(format: str):
+
     '''
-    Generates heatmap images and saves them to the 'figures' folder.
+    Generates heatmap images of a specified file format and saves them to the 'figures' folder.
     '''
+
     filepath = 'results/results.json'
     if os.path.exists(filepath):
         with open(filepath, 'r') as f:
