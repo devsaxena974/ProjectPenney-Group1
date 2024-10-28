@@ -4,7 +4,7 @@ import json
 import numpy as np
 from tqdm import tqdm
 from typing import List
-from .deck_generation import generate_data  # Relative import within the package
+from src.deck_generation import generate_data # Relative import within the package
 
 def score_deck(deck: List[str], seq1: str, seq2: str, score_by_points=False) -> tuple:
     """Simulate a single game between Player 1 and Player 2 based on their sequences."""
