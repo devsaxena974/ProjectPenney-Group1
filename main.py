@@ -1,3 +1,7 @@
+import os
+from src.deck_generation import generate_data
+from src.simulation import run_simulation
+
 def main():
     num_iterations = 1000  # Number of decks to generate and rounds to simulate
     decks_file = 'data/ones_and_zeros'
