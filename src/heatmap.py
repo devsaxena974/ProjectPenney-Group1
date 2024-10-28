@@ -2,6 +2,7 @@ import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import os
 import json
 
@@ -133,20 +134,47 @@ def make_heatmap_package(cards: np.ndarray,
         return fig, ax
     
     elif library == 'plotly':
+        fig = make_subplots(rows = 1, cols = 2, subplot_titles = [
+            f'My Chance of Winning by Cards (n = {n})',
+            f'My Chance of Winning by Tricks (n = {n})'
+        ])
+
         #Cards heatmap
         cards_annots = make_annots(cards, cards_ties)
-        fig1 = make_heatmap(cards, cards_annots, title = f'My Chance of Winning by Cards\n(n = {n})', library = 'plotly')[0]
+        fig.add_trace(
+            go.Heatmap(
+                z = cards,
+                colorscale = 'Blues',
+                colorbar = dict(title = 'Win %', thickness = 20),
+                text = cards_annots,
+                hoverinfo = 'text+z',
+                showscale= False
+            ),
+            row = 1, col = 1
+        )
 
         #Tricks heatmap
         tricks_annots = make_annots(tricks, tricks_ties)
-        fig2 = make_heatmap(tricks, tricks_ties, title = f'My Chance of Winning by Tricks\n(n = {n})', library = 'plotly')[0]
+        fig.add_trace(
+            go.Heatmap(
+                z = tricks,
+                colorscale = 'Blues',
+                colorbar = dict(title = 'Win %', thickness = 20),
+                text = tricks_annots,
+                hoverinfo = 'text+z'
+            ),
+            row = 1, col = 2
+        )
 
-        #Combine into one figure
-        fig1.update_layout(grid = dict(columns = 2, rows = 1))
-        for trace in fig2.data:
-            fig1.add_trace(trace)
+        fig.update_layout(
+            width = FIG_WIDE*2*100, height = FIG_HIGH*100,
+            margin = dict(l = 50, r = 50, t = 80, b = 50)
+        )
 
-        return fig1, None
+        fig.update_xaxes(tickvals = list(range(8)), ticktext = ['BBB', 'BBR', 'BRB', 'BRR', 'RBB', 'RBR', 'RRB', 'RRR'])
+        fig.update_yaxes(tickvals=list(range(8)), ticktext=['RRR', 'RRB', 'RBR', 'RBB', 'BRR', 'BRB', 'BBR', 'BBB'])
+
+        return fig, None
 
 
 def get_heatmaps(format: str):
@@ -181,4 +209,4 @@ def get_heatmaps(format: str):
 
 if __name__ == '__main__':
     #get_heatmaps('png')
-    #get_heatmaps('html')
+    get_heatmaps('html')
