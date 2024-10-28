@@ -110,6 +110,10 @@ def make_heatmap_package(cards: np.ndarray,
         
         return fig, ax
 
+    elif library == 'plotly':
+        
+
+
         #Cards heatmap
         cards_annots = make_annots(cards, cards_ties)
         fig.add_trace(
