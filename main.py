@@ -4,7 +4,7 @@ from src.simulation import run_simulation
 from src.heatmap import get_heatmaps
 
 def penney_game(n: int, format: str, reset_probabilities = False):
-    num_iterations = n  # Number of decks to generate and rounds to simulate
+    #num_iterations = n  # Number of decks to generate and rounds to simulate
     decks_file = 'data/ones_and_zeros'
     probabilities_file = 'results/results.json'
     #reset_probabilities = False  # Set to True to reset cumulative probabilities
@@ -15,11 +15,11 @@ def penney_game(n: int, format: str, reset_probabilities = False):
         print(f"Deleted existing '{probabilities_file}' to reset cumulative probabilities.")
 
     # Generate decks and save to decks_file
-    generate_data(num_iterations, decks_file)
-    print(f"\nGenerated {num_iterations} decks and saved to '{decks_file}'.")
+    generate_data(n, decks_file)
+    print(f"\nGenerated {n} decks and saved to '{decks_file}'.")
 
     # Run simulation using the generated decks
-    run_simulation(rounds=num_iterations, decks_file=decks_file, probabilities_file=probabilities_file)
+    run_simulation(rounds=n, decks_file=decks_file, probabilities_file=probabilities_file)
     print("Simulation completed and probabilities updated.")
 
     # Generate heatmaps
