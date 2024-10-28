@@ -158,12 +158,12 @@ def get_heatmaps(format: str):
     '''
     Generates heatmap images and saves them to the 'figures' folder.
     '''
-    probabilities_file = 'results/probabilities.json'
-    if os.path.exists(probabilities_file):
-        with open(probabilities_file, 'r') as f:
+    filepath = 'results/results.json'
+    if os.path.exists(filepath):
+        with open(filepath, 'r') as f:
             results = json.load(f)
     else:
-        print(f"Probabilities file '{probabilities_file}' not found.")
+        print(f"F '{filepath}' not found.")
         return
 
     cards = format_data(results['cards'])
