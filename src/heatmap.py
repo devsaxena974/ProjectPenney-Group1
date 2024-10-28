@@ -1,10 +1,10 @@
-import seaborn as sns
+import os
+from src.deck_generation import generate_data
+from src.simulation import run_simulation
+import json
 import numpy as np
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-import os
-import json
+import seaborn as sns
 
 # Display settings for figures
 FIG_HIGH = 8
@@ -18,39 +18,36 @@ ANNOT_SIZE = 8
 
 def format_data(data: list) -> np.ndarray:
     '''
-    Responsible for formatting the numeric values for each array in the dictionary for annotations
+    Formats the numeric values for each array in the dictionary for annotations.
     '''
-    data_new = np.array(data, dtype = 'float32')
+    data_new = np.array(data, dtype='float32')
     np.fill_diagonal(data_new, np.nan)
-    return np.round(np.flip(data_new, axis = 1))
+    return np.round(np.flip(data_new, axis=1))
 
-
-def make_annots(wins : np.ndarray, ties: np.ndarray) -> np.ndarray:
+def make_annots(wins: np.ndarray, ties: np.ndarray) -> np.ndarray:
     '''
-    Takes in two formatted arrays for wins and ties to return one array of strings of form "Win Percent (Tie Percent)" to use for cell annotations
+    Creates an array of strings in the form "Win Percent (Tie Percent)" for cell annotations.
     '''
     annots = []
     for i in range(8):
         row = []
         for j in range(8):
-            if np.isnan(wins[i,j]):
+            if np.isnan(wins[i, j]):
                 row.append('')
             else:
-                row.append(f'{str(int(wins[i,j]))} ({str(int(ties[i,j]))})')
+                row.append(f'{int(wins[i, j])} ({int(ties[i, j])})')
         annots.append(row)
     return np.array(annots)
-
 
 def make_heatmap(arr: np.ndarray,
                  annots: np.ndarray,
                  ax: plt.Axes = None,
                  title: str = None,
                  library: str = 'matplotlib',
-                ) -> tuple[plt.Figure, plt.Axes]:
+                 cbar_ax=None) -> tuple:
     '''
-    Generates a single heatmap using formatted data and annotations with either the MatPlotLib or Plotly libraries
+    Generates a single heatmap using formatted data and annotations.
     '''
-    
     seqs = ['BBB', 'BBR', 'BRB', 'BRR', 'RBB', 'RBR', 'RRB', 'RRR']
 
     if library == 'matplotlib':
@@ -61,15 +58,15 @@ def make_heatmap(arr: np.ndarray,
             # Get the parent figure
             fig = ax.get_figure()
 
-        sns.heatmap(data = arr, 
-                    ax = ax,
-                    vmin = 0,
-                    vmax = 100,
-                    linewidth = 0.01,
-                    cmap = 'Blues',
-                    cbar = False,
-                    annot = annots,
-                    fmt = '')
+        sns.heatmap(data=arr,
+                    ax=ax,
+                    vmin=0,
+                    vmax=100,
+                    linewidth=0.01,
+                    cmap='Blues',
+                    cbar=False,
+                    annot=annots,
+                    fmt='')
 
         ax.set_xticklabels(seqs, fontsize=TICKLABEL_SIZE)
         ax.set_yticklabels(seqs[::-1], fontsize=TICKLABEL_SIZE)
@@ -78,53 +75,33 @@ def make_heatmap(arr: np.ndarray,
         
         return fig, ax
 
-    elif library == 'plotly':
-        heatmap = go.Heatmap(
-            z = arr,
-            colorscale = 'Blues',
-            colorbar = dict(title = 'Win %'),
-            text = annots,
-            hoverinfo = "text+z"
-        )
-
-        fig = go.Figure(data = [heatmap])
-        fig.update_layout(title=title, xaxis_title='My Choice', yaxis_title='Opponent Choice')
-        fig.update_xaxes(tickvals=list(range(8)), ticktext=seqs)
-        fig.update_yaxes(tickvals=list(range(8)), ticktext=seqs[::-1])
-
-        return fig, None
-
-
 def make_heatmap_package(cards: np.ndarray,
                          cards_ties: np.ndarray,
                          tricks: np.ndarray,
                          tricks_ties: np.ndarray,
                          n,
-                         library: str = 'matplotlib'
-                        ) -> tuple[plt.Figure, plt.Axes]:
-    
+                         library: str = 'matplotlib') -> tuple:
     '''
-    Creates two side-by-side heatmaps using the specified library as a single figure to visualize both versions of the game.
+    Creates two side-by-side heatmaps to visualize both versions of the game.
     '''
-
     if library == 'matplotlib':
-        fig, ax = plt.subplots(1, 2, figsize = (FIG_WIDE*2, FIG_HIGH))
+        fig, ax = plt.subplots(1, 2, figsize=(FIG_WIDE*2, FIG_HIGH))
 
         # Cards heatmap (left)
         cards_annots = make_annots(cards, cards_ties)
         make_heatmap(cards, cards_annots, ax[0], 
-                    title = f'My Chance of Winning by Cards\n(n = {n})')
+                    title=f'My Chance of Winning by Cards\n(n = {n})')
     
-        ax[0].set_xlabel('My Choice', fontsize = LABEL_SIZE)
-        ax[0].set_ylabel('Opponent Choice', fontsize = LABEL_SIZE)
+        ax[0].set_xlabel('My Choice', fontsize=LABEL_SIZE)
+        ax[0].set_ylabel('Opponent Choice', fontsize=LABEL_SIZE)
 
         # Tricks heatmap (right)
         tricks_annots = make_annots(tricks, tricks_ties)
         make_heatmap(tricks, tricks_annots, ax[1], 
-                    title = f'My Chance of Winning by Tricks\n(n = {n})')
+                    title=f'My Chance of Winning by Tricks\n(n = {n})')
         
-        ax[1].set_xlabel('My Choice', fontsize = LABEL_SIZE)
-        ax[1].set_ylabel('Opponent Choice', fontsize = LABEL_SIZE)
+        ax[1].set_xlabel('My Choice', fontsize=LABEL_SIZE)
+        ax[1].set_ylabel('Opponent Choice', fontsize=LABEL_SIZE)
 
         # Add custom colorbar
         cbar_ax = fig.add_axes([.92, 0.11, 0.02, .77])
@@ -132,12 +109,6 @@ def make_heatmap_package(cards: np.ndarray,
         cb.outline.set_linewidth(.2)
         
         return fig, ax
-    
-    elif library == 'plotly':
-        fig = make_subplots(rows = 1, cols = 2, subplot_titles = [
-            f'My Chance of Winning by Cards (n = {n})',
-            f'My Chance of Winning by Tricks (n = {n})'
-        ])
 
         #Cards heatmap
         cards_annots = make_annots(cards, cards_ties)
@@ -185,34 +156,30 @@ def make_heatmap_package(cards: np.ndarray,
 
 def get_heatmaps(format: str):
     '''
-    This is the master function that can be called to generate new PNG or HTML heatmap images and save them to the 'figures' folder
+    Generates heatmap images and saves them to the 'figures' folder.
     '''
-
-    filepath = 'results/results.json'
-    if os.path.exists(filepath):
-        with open(filepath) as f:
+    probabilities_file = 'results/probabilities.json'
+    if os.path.exists(probabilities_file):
+        with open(probabilities_file, 'r') as f:
             results = json.load(f)
-    
+    else:
+        print(f"Probabilities file '{probabilities_file}' not found.")
+        return
+
     cards = format_data(results['cards'])
     cards_ties = format_data(results['cards_ties'])
     tricks = format_data(results['tricks'])
     tricks_ties = format_data(results['tricks_ties'])
     n = results['n']
 
-    if not os.path.exists('figures'):
-        os.makedirs('figures')
+    # Ensure the 'figures' directory exists
+    figures_dir = 'figures'
+    os.makedirs(figures_dir, exist_ok=True)
     
     if format == 'png':
-        fig, ax = make_heatmap_package(cards, cards_ties, tricks, tricks_ties, n, library = 'matplotlib')
-        fig.savefig('figures/heatmap.png', format = 'png')
-
-    elif format == 'html':
-        fig, _ = make_heatmap_package(cards, cards_ties, tricks, tricks_ties, n, library = 'plotly')
-        fig.write_html('figures/heatmap.html')
-    
+        fig, ax = make_heatmap_package(cards, cards_ties, tricks, tricks_ties, n, library='matplotlib')
+        fig.savefig(os.path.join(figures_dir, 'heatmap.png'), format='png', bbox_inches='tight')
+        plt.close(fig)  # Close the figure to free memory
+        print(f"Heatmap saved as '{figures_dir}/heatmap.png'.")
     else:
-        print("Format not supported, please enter either 'png' or 'html'")
-
-if __name__ == '__main__':
-    #get_heatmaps('png')
-    get_heatmaps('html')
+        print("Format not supported, please enter 'png'.")
