@@ -22,7 +22,7 @@ The `load_game_data` and `save_game_data` functions load and save the win matrix
 #### `processing.py`
 can someone update this once the processing file has code in it
 
-#### 'heatmap.py`
+#### `heatmap.py`
 This file generates heatmaps based on pre-calculated win data from the simulation. The function takes the processed data and creates two customizable heatmaps for each version of the game.
 
 The `get_data` function reads game results from a JSON file, formats them into a matrix, and prepares the data for visualization. 
