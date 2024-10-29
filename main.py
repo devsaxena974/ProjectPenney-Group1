@@ -26,18 +26,4 @@ def penney_game(n: int, format: str, reset_probabilities = False):
     get_heatmaps(format)
     print("Heatmap generation completed.")
 
-def main():
-    # Prompt the user for input
-    try:
-        n = int(input("Enter the number of games you want to play: "))
-        format = input("Enter the format for the heatmap (e.g., 'png' or 'jpg'): ").strip()
-        reset_input = input("Do you want to reset probabilities? (yes or no): ").strip().lower()
-        reset_probabilities = reset_input == 'yes'
-        
-        # Run the Penney game with user-provided inputs
-        penney_game(n, format, reset_probabilities)
-    except ValueError:
-        print("Invalid input. Please enter a valid number for the number of games.")
 
-if __name__ == "__main__":
-    main()
