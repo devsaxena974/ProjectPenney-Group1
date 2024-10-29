@@ -9,13 +9,17 @@ This repository contains files which can be used to simulate a variation of Penn
 # Running the Program
 
 To run the program, navigate to the directory containing main.py and run it by passing arguments directly to the penney_game function in your script. Here’s how to structure your code to specify parameters:
-----------
+
+# Navigate to main directory
 from main import penney_game
 
 # Customize these parameters as needed
-n = 100                # Number of games to simulate /
-format = 'png'         # Format for heatmap output ('png' or 'jpg') /
-reset_probabilities = True  # Set to True to reset probabilities, False otherwise /
+n = 100                # Number of games to simulate
+
+format = 'png'         # Format for heatmap output ('png' or 'jpg') 
+
+reset_probabilities = True  # Set to True to reset probabilities, False otherwise 
+
 
 penney_game(n, format, reset_probabilities)
 
