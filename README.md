@@ -6,6 +6,19 @@
 This repository contains files which can be used to simulate a variation of Penney's Game known as the Humble-Nishiyama Randomness Game, in which two players compete to see how many times a selected three-color sequence (Black Black Red, Red Black Red, etc.) appears in a shuffled deck of cards. At the beginning of a game, both players choose a three-card sequence they will use for the whole game. The game can be played in two ways: by cards or by tricks. In the cards version, when a player's chosen sequence appears, they get all of the drawn cards up to that point. In the tricks version, each player takes their three card sequence each time it appears. The winner is determined in one of two ways: highest number of cards held or highest number of tricks. Probability rules show that Player Two can use Player One's chosen three-card sequence to choose a three-card sequence that gives them a much higher win probability than Player One. More can be found about how the game works and the accompanying logic by reading [this paper](https://www.datascienceassn.org/sites/default/files/Humble-Nishiyama%20Randomness%20Game%20-%20A%20New%20Variation%20on%20Penney%27s%20Coin%20Game.pdf) written by the game's creators. 
 
 ### Getting Started:
+# Running the Program
+
+To run the program, navigate to the directory containing main.py and run it by passing arguments directly to the penney_game function in your script. Here’s how to structure your code to specify parameters:
+----------
+from main import penney_game
+
+# Customize these parameters as needed
+n = 100                # Number of games to simulate
+format = 'png'         # Format for heatmap output ('png' or 'jpg')
+reset_probabilities = True  # Set to True to reset probabilities, False otherwise
+
+penney_game(n, format, reset_probabilities)
+
 --------------
 #### `simulation.py`
 The main function, `run_simulation`, sets the number of rounds and optional random seed for shuffling the deck. For each round a shuffled deck of cards is created and games are simulated for all possible combinations each player can have. The results are saved and loaded into JSON files.
