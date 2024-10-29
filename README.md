@@ -25,15 +25,13 @@ penney_game(n, format, reset_probabilities)
 
 --------------
 #### `simulation.py`
-The main function, `run_simulation`, sets the number of rounds and optional random seed for shuffling the deck. For each round a shuffled deck of cards is created and games are simulated for all possible combinations each player can have. The results are saved and loaded into JSON files.
+This code generates and saves randomized binary decks for simulations. Here’s a brief overview:
 
-The `data` folder stores JSON files for game data, deck history, and win counts. `os.makedirs(data_folder)` creates the folder if it does not already exist.
+Deck Setup: Defines a deck of 26 "red" (1) and 26 "black" (0) cards.
 
-The `generate_hands` function generates all possible hands in binary. 1 represents red and 0 represents black. Each hand is generated and returned as a list of lists. The `binary_to_color_string` function converts a binary list like [1,0,1] to "RBR".
+Deck Shuffling (generate_sequence): Shuffles the deck into a random order based on a given seed for reproducibility.
 
-The `simulate_game` function runs a single game between each possible combination of player hands against a shuffled deck. Its parameters are `hands`, `shuffled_deck`, and `count_total_cards`. For each pair of player card choices, this function goes through the deck and checks for matches against each hand. 
-
-The `load_game_data` and `save_game_data` functions load and save the win matrix and total rounds played into JSON files. The deck history is saved for analysis purposes. 
+Data Generation (generate_data): Creates multiple shuffled decks, storing each as a binary sequence in a list. It saves these decks to a specified file in JSON format, ensuring they’re available for later simulations.
 
 
 #### `processing.py`
