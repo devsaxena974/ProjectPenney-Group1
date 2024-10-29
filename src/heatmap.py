@@ -2,7 +2,6 @@ import os
 import json
 import numpy as np
 import matplotlib.pyplot as plt
-import plotly
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import seaborn as sns
